@@ -9,7 +9,7 @@ async def create_db():
     async with engine.begin() as conn:
         try:
             from .models import Note, NoteBook,User
-
+            await conn.run_sync(Base.metadata.drop_all)
             await conn.run_sync(Base.metadata.create_all)
             
 

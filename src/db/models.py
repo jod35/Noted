@@ -1,26 +1,33 @@
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column,relationship
 from sqlalchemy_utils import EmailType
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import Integer,String,ForeignKey,Text
+from sqlalchemy import Integer,String,ForeignKey,Text,select
 from datetime import datetime
 from typing import List
+from .base import async_session
 
 
+
+session = async_session()
+    
 
 class Base(DeclarativeBase):
     pass
 
+class User(Base):
+    __tablename__ = 'users'
+    id : Mapped[int] = mapped_column(primary_key=True)
+    username : Mapped[str] = mapped_column(nullable=False)
+    email : Mapped[str] = mapped_column(EmailType,nullable=False)
+    password_hash : Mapped[str] = mapped_column(Text,nullable=False)
 
-class NoteBook(Base):
-    __tablename__ = 'notebooks'
-    id:Mapped[int] = mapped_column(primary_key=True)
-    name:Mapped[str] = mapped_column(nullable=False)
-    notes:Mapped[List['Note']] = relationship('Note',back_populates='notes')
-    user_id:Mapped[int] = ForeignKey('user.id')
-    creator:Mapped["User"] = relationship(back_populates="user")
 
     def __repr__(self) -> str:
-        return f"<Book {self.name}>"
+        return f"<User {self.email}>"
+
+
+
+
 
 
 class Note(Base):
@@ -29,24 +36,24 @@ class Note(Base):
     title : Mapped[str] = mapped_column(nullable=False)
     content : Mapped[str] = mapped_column(Text,nullable=False)
     created : Mapped[datetime] =mapped_column(default=datetime.utcnow)
-    book_id  :Mapped[int] = ForeignKey('notebooks.id')
-    user_id : Mapped[int]=ForeignKey('user.id')
-    author : Mapped["User"] = relationship(back_populates="user")
-
+    book_id  :Mapped[int] = mapped_column(ForeignKey('notebooks.id'))
+    user_id : Mapped[int]= mapped_column(ForeignKey('users.id'))
 
 
     def __repr__(self) -> str:
         return f"<Note {self.title}>"
-    
 
-class User(Base):
-    __tablename__ = 'users'
-    id : Mapped[int] = mapped_column(primary_key=True)
-    username : Mapped[str] = mapped_column(nullable=False)
-    email : Mapped[str] = mapped_column(EmailType,nullable=False)
-    password_hash : Mapped[str] = mapped_column(Text,nullable=False)
-    notes : Mapped[List["Note"]] = relationship(back_populates="notes")
-    notebooks : Mapped[List["NoteBook"]] = relationship(back_populates="notebooks")
+class NoteBook(Base):
+    __tablename__ = 'notebooks'
+    id:Mapped[int] = mapped_column(primary_key=True)
+    name:Mapped[str] = mapped_column(nullable=False)
+    user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+
 
     def __repr__(self) -> str:
-        return f"<User {self.email}>"
+        return f"<Book {self.name}>"
+
+
+    
+    
+
