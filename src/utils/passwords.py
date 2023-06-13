@@ -7,7 +7,7 @@ def generate_pwd_hash(password:str):
 
     hash = bcrypt.hashpw(bytes,salt)
 
-    return hash
+    return str(hash)
 
 
 def check_password(password:str,hashed_pwd):
