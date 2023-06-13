@@ -8,8 +8,9 @@ import logging
 async def create_db():
     async with engine.begin() as conn:
         try:
-            from .models import Note, NoteBook
-            await conn.run_sync(Base.metadata.drop_all)
+            from .models import Note, NoteBook,User
+
+            await conn.run_sync(Base.metadata.create_all)
             
 
         except Exception as e:
@@ -18,3 +19,4 @@ async def create_db():
 
     await engine.dispose()
 
+# asyncio.run(create_db())
