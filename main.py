@@ -1,5 +1,4 @@
 import asyncio 
-from src.db.create_db import create_db
 import uvicorn
 
 
