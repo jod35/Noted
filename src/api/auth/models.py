@@ -10,11 +10,9 @@ from sqlalchemy import ForeignKey,Text
 from typing import List
 from ..notes.models import Note
 from ..notebooks.models import NoteBook
+from ..db.base import Base
 
 
-
-class Base(DeclarativeBase):
-    pass
 
 
 class User(Base):

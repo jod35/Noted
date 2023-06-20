@@ -7,10 +7,7 @@ from sqlalchemy.orm import (
 from datetime import datetime
 from sqlalchemy import ForeignKey
 from ..auth.models import User
-
-class Base(DeclarativeBase):
-    pass
-
+from ..db.base import Base
 
 class Note(Base):
     __tablename__ = 'notes'

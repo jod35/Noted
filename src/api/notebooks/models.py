@@ -6,9 +6,8 @@ from sqlalchemy.orm import (
 )
 
 from ..auth.models import User
+from ..db.base import Base
 
-class Base(DeclarativeBase):
-    pass
 
 class NoteBook(Base):
     __tablename__ = 'notebooks'
