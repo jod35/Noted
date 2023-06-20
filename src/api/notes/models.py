@@ -1,5 +1,4 @@
 from sqlalchemy.orm import (
-    DeclarativeBase,
     relationship,
     Mapped,
     mapped_column

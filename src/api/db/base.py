@@ -7,7 +7,7 @@ class Base(DeclarativeBase):
 
 
 engine = create_async_engine(
-    "postgresql+asyncpg://postgresql:nathanoj35@localhost/notes_app",
+    "postgresql+asyncpg://postgres:nathanoj35@localhost/notes_app",
     echo=True
 )
 
